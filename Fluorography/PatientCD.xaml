@@ -1,0 +1,33 @@
+﻿<Window x:Class="Fluorography.PatientCD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fluorography"
+        mc:Ignorable="d"
+        Title="PatientCD" Height="450" Width="800">
+    <Grid Background="#FFD6F1E6">
+        <Image VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" Height="50" Source="/ICON.png" Stretch="Fill" RenderTransformOrigin="-4.563,0.13" OpacityMask="Black"/>
+        <Label Content="ГАУЗ Атнинская ЦРБ" HorizontalAlignment="Left" FontFamily="Bahnschrift Light" FontSize="16" Margin="60,0,0,409" OpacityMask="Black"/>
+        <Label Content="программа учета флюорографии" HorizontalAlignment="Left" Margin="60,25,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed" OpacityMask="Black"/>
+        <Button x:Name="exit" Content="назад" HorizontalAlignment="Right"  VerticalAlignment="Top" FontSize="24" FontFamily="Bahnschrift Light Condensed" Width="132" Margin="0,9,10,0" Background="#FFFCB0B0" OpacityMask="Black" Click="exit_Click"/>
+        <Label x:Name="patic" Content="просмотр данных пациентов" HorizontalAlignment="Left" Margin="337,12,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Bahnschrift Light Condensed"/>
+        <Button x:Name="savePatient" Content="сохранить изменения" HorizontalAlignment="Left" Margin="151,360,0,0" VerticalAlignment="Top" Background="#FFE7FFFE" FontSize="20" Width="214" Click="savePatient_Click"/>
+        <Button x:Name="newPatient" Content="добавить нового пациента" HorizontalAlignment="Left" Margin="390,360,0,0" VerticalAlignment="Top" Background="#FFE7FFFE" FontSize="20" Width="268" Click="newPatient_Click"/>
+        <Label Content="Фамилия:" HorizontalAlignment="Left" Margin="320,70,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
+        <TextBox x:Name="lastName" HorizontalAlignment="Left" Margin="415,73,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="243" FontSize="20"/>
+        <Label Content="Имя:" HorizontalAlignment="Left" Margin="362,113,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
+        <TextBox x:Name="name"  HorizontalAlignment="Left" Margin="415,116,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="243" FontSize="20"/>
+        <Label Content="Отчество:" HorizontalAlignment="Left" Margin="320,158,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
+        <TextBox x:Name="patronymic" HorizontalAlignment="Left" Margin="415,161,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="243" FontSize="20"/>
+        <Label Content="Дата рождения:" HorizontalAlignment="Left" Margin="267,0,0,0" VerticalAlignment="Center" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
+        <TextBox x:Name="dateOfBirth"  HorizontalAlignment="Left" Margin="415,0,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Center" Width="243" FontSize="20"/>
+        <Label Content="Полис:" HorizontalAlignment="Left" Margin="345,246,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
+        <TextBox x:Name="enp" HorizontalAlignment="Left" Margin="415,249,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="243" FontSize="20"/>
+        <Label Content="Прохождение флюорографии:" HorizontalAlignment="Left" Margin="151,299,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
+        <Button x:Name="fluographyOk" Content="отметить" HorizontalAlignment="Left" Margin="574,300,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift Light" Width="126" Background="#FFFAF9F9" Click="fluographyOk_Click_1"/>
+        <TextBox x:Name="idd" IsEnabled="False" HorizontalAlignment="Left" Margin="516,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="20" Background="#FFD6F1E6"/>
+        <TextBox x:Name="fluo" TextAlignment="Center" HorizontalAlignment="Left" Margin="418,300,0,0" TextWrapping="Wrap" Text="не пройдена" VerticalAlignment="Top" Width="138" Height="32"  Background="#FFD6F1E6" FontFamily="Bahnschrift SemiLight" FontSize="18" FontStyle="Italic"/>
+
+    </Grid>
+</Window>

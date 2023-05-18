@@ -1,0 +1,25 @@
+﻿<Window x:Class="Fluorography.Flu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fluorography"
+        mc:Ignorable="d"
+        Title="Flu" Height="450" Width="406">
+    <Grid Background="#FFD6F1E6">
+        <Image VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" Height="50" Source="/ICON.png" Stretch="Fill" RenderTransformOrigin="-4.563,0.13" OpacityMask="Black" Margin="69,9,0,0"/>
+        <Label Content="ГАУЗ Атнинская ЦРБ" HorizontalAlignment="Left" FontFamily="Bahnschrift Light" FontSize="16" Margin="129,9,0,401" OpacityMask="Black"/>
+        <Label Content="программа учета флюорографии" HorizontalAlignment="Left" Margin="132,34,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed" OpacityMask="Black"/>
+        <Label Content="Район:" HorizontalAlignment="Left" Margin="57,103,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
+        <Label Content="Улица:" HorizontalAlignment="Left" Margin="58,140,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
+        <TextBox x:Name="selo" HorizontalAlignment="Left" Margin="152,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" FontSize="18" FontFamily="Bahnschrift SemiLight"/>
+        <TextBox x:Name="street" HorizontalAlignment="Left" Margin="152,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
+        <Calendar x:Name="data" SelectedDatesChanged="data_SelectedDatesChanged" HorizontalAlignment="Left" Margin="106,186,0,0" VerticalAlignment="Top" Height="158" Width="212"/>
+        <Button x:Name="getFluor" Content="отметить" HorizontalAlignment="Left" Margin="212,362,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift SemiCondensed" Width="106" Height="37" Background="#FF99E8D4" Click="getFluor_Click"/>
+        <Label x:Name="patient" Content="пациент" HorizontalAlignment="Left" Margin="174,68,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Bahnschrift SemiCondensed" Width="76" RenderTransformOrigin="0.55,-0.375"/>
+        <Label Content="ID:" HorizontalAlignment="Left" Margin="144,68,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiCondensed" FontSize="16" RenderTransformOrigin="0.709,0.378"/>
+        <Button x:Name="updating" Content="изменить" HorizontalAlignment="Left" Margin="91,362,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift SemiCondensed" Width="106" Height="37" Background="#FF99E8D4" Click="updating_Click"/>
+
+
+    </Grid>
+</Window>
