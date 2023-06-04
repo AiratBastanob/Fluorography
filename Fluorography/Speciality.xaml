@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fluorography"
         mc:Ignorable="d"
-        Title="Speciality" Height="450" Width="800">
+        Title="Редактирование специалиста" Icon="ICON.png" FontFamily="Bahnschrift Light" MaxHeight="450" MaxWidth="800" MinHeight="450" MinWidth="800"  Height="450" Width="800">
     <Grid Background="#FFD6F1E6">
         <Image VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" Height="50" Source="/ICON.png" Stretch="Fill" RenderTransformOrigin="-4.563,0.13" Margin="2,6,0,0"/>
         <Label Content="ГАУЗ Атнинская ЦРБ" HorizontalAlignment="Left" FontFamily="Bahnschrift Light" FontSize="14" Margin="62,10,0,399"/>
@@ -15,21 +15,27 @@
         <Label x:Name="privet" Content="врач" HorizontalAlignment="Left" Margin="317,28,0,0" VerticalAlignment="Top" Width="288" FontFamily="Bahnschrift Light"/>
         <Button x:Name="newSpets" Content="добавить специалиста" HorizontalAlignment="Left" Margin="42,349,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift Light" Width="240" Height="42" Background="#FFE7FFFE" Click="newSpets_Click"/>
         <Label Content="Логин:" HorizontalAlignment="Left" Margin="476,152,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
-        <TextBox x:Name="login" HorizontalAlignment="Left" Margin="556,152,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
+        <TextBox x:Name="login"  Text="{Binding SelectedItem.login, ElementName=spetsList}" HorizontalAlignment="Left" Margin="556,152,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
         <Label Content="Пароль:" HorizontalAlignment="Left" Margin="467,192,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
-        <TextBox x:Name="pass"  HorizontalAlignment="Left" Margin="556,195,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
+        <TextBox x:Name="pass"  Text="{Binding SelectedItem.password, ElementName=spetsList}" HorizontalAlignment="Left" Margin="556,195,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
         <Label Content="Роль:" HorizontalAlignment="Left" Margin="488,236,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
-        <TextBox x:Name="role" HorizontalAlignment="Left" Margin="556,239,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
+        <TextBox x:Name="role"  Text="{Binding SelectedItem.role, ElementName=spetsList}" HorizontalAlignment="Left" Margin="556,239,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
         <Label Content="ФИО" HorizontalAlignment="Left" Margin="491,281,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
-        <TextBox x:Name="fio" HorizontalAlignment="Left" Margin="556,284,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
+        <TextBox x:Name="fio"  Text="{Binding SelectedItem.FIO, ElementName=spetsList}" HorizontalAlignment="Left" Margin="556,284,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20"/>
         <TextBox x:Name="poisk" TextChanged="poisk_TextChanged" HorizontalAlignment="Left" Margin="62,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="199" FontSize="18" FontFamily="Bahnschrift SemiLight" RenderTransformOrigin="0.5,0.5" Height="34"/>
-        <Button x:Name="search" Content="Поиск"  HorizontalAlignment="Left" Margin="266,102,0,0" VerticalAlignment="Top" Click="search_Click" RenderTransformOrigin="0.652,0.162" FontSize="18" Width="102" Background="#FFE7FFFE" Height="34"/>
         <Button x:Name="delete" Content="удалить специалиста" HorizontalAlignment="Left" Margin="532,349,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift Light" Width="234" Height="42" Background="#FFE7FFFE" Click="delete_Click"/>
-        <DataGrid x:Name="spetsList" HorizontalAlignment="Left" Height="161" Margin="60,152,0,0" SelectedCellsChanged="spetsList_SelectedCellsChanged" MouseDoubleClick="spetsList_MouseDoubleClick"  VerticalAlignment="Top" Width="340"/>
+        <DataGrid x:Name="spetsList" HorizontalAlignment="Left" ItemsSource="{Binding}" Height="161" Margin="60,152,0,0" SelectedCellsChanged="spetsList_SelectedCellsChanged"   VerticalAlignment="Top" Width="340">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Path=ID}" Width="50" />
+                <DataGridTextColumn Header="Логин" Binding="{Binding Path=login}" Width="60" />
+                <DataGridTextColumn Header="Пароль" Binding="{Binding Path=password}" Width="70" />
+                <DataGridTextColumn Header="Роль" Binding="{Binding Path=role}" Width="40" />
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Path=FIO}" Width="90" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="509,108,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
-        <TextBox x:Name="id" HorizontalAlignment="Left" Margin="556,110,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
+        <TextBox x:Name="id" Text="{Binding SelectedItem.ID, ElementName=spetsList}" HorizontalAlignment="Left" Margin="556,110,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
         <Label Content="Введите фамилию специалиста:" HorizontalAlignment="Left" Margin="62,78,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight"/>
         <Button x:Name="update" Content="обновить данные" HorizontalAlignment="Left" Margin="291,349,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift Light" Width="228" Height="42" Background="#FFE7FFFE" Click="update_Click"/>
-
     </Grid>
 </Window>

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Org.BouncyCastle.Ocsp;
 
 namespace Fluorography
 {
@@ -31,50 +33,16 @@ namespace Fluorography
 			InitializeComponent();
 			patientsList.ItemsSource = db.Patients.ToList();
 		}
-
-		public void  Obnov()
+		public void Obnov()
 		{
 			_db = _podkl.OverallSelect("Select ID,  LastName, Surname, Patronymic FROM [dbo].[Patients]");
 			patientsList.ItemsSource = _db.DefaultView;
 		}
-		private void search_Click(object sender, RoutedEventArgs e)
-		{
-			
-		}
-		private void poisk_TextChanged(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				if (poisk.Text != "")
-				{
-					string a = poisk.Text;
-					string[] b = a.Split(' ');
-					patientsList.ItemsSource = db.Patients.ToList().Where(c => c.Surname.Contains(poisk.Text));
-					poisk.Clear();
-				}
-				else
-				{
-					MessageBox.Show("Введите что-нибудь");
-					_db = _podkl.OverallSelect("Select ID,  LastName, Surname, Patronymic FROM [dbo].[Patients]");
-					patientsList.ItemsSource = _db.DefaultView;
-				}
-			}
-			catch
-			{
-				MessageBox.Show("Такого пациента нет в базе данных");
-				poisk.Clear();
-			}
-		}
-	
 		private void newPatient_Click(object sender, RoutedEventArgs e)
 		{
 			PatientCD patient = new PatientCD();
-			patient.savePatient.IsEnabled= false;
-			patient.MyWindow = this;
 			patient.Show();
-			this.Visibility = Visibility.Hidden;
 		}
-
 		private void exit_Click(object sender, RoutedEventArgs e)
 		{
 			if (exit.Content.ToString() == "ВЫХОД")
@@ -88,7 +56,6 @@ namespace Fluorography
 				this.Close();
 			}
 		}
-
 		private void patientsList_Click(object sender, RoutedEventArgs e)
 		{
 			PatientCD patient = new PatientCD();
@@ -115,18 +82,17 @@ namespace Fluorography
 			}
 			catch (NullReferenceException) { }
 		}
-
 		private void patientsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			PatientCD cd = new PatientCD();
+			var cd = new PatientCD(this, privet.Content.ToString());
 			try
 			{
 				var pat = (Patients)patientsList.SelectedItem;
 				if (pat != null)
 				{
 					cd.idd.Text = pat.ID.ToString();
-					cd.name.Text = pat.LastName.ToString();
-					cd.lastName.Text = pat.Surname.ToString();
+					cd.name.Text = pat.Surname.ToString();
+					cd.lastName.Text = pat.LastName.ToString();
 					cd.patronymic.Text = pat.Patronymic.ToString();
 					cd.dateOfBirth.Text = pat.DateOfBirth.ToString();
 					cd.enp.Text = pat.Enp.ToString();
@@ -138,9 +104,9 @@ namespace Fluorography
 					else { cd.fluo.Text = "не пройдена"; }
 				}
 			} 
-		
 			catch (NullReferenceException) { }
 			cd.Show();
+			Hide();
 		}
 		private void delete_Click(object sender, RoutedEventArgs e)
 		{
@@ -165,7 +131,6 @@ namespace Fluorography
 				MessageBox.Show("Выберите пациента!");
 			}
 		}
-
 		private void patientsList_LoadingRow(object sender, DataGridRowEventArgs e)
 		{
 			Patients patients = new Patients();
@@ -178,7 +143,15 @@ namespace Fluorography
 				{
 					e.Row.Background = Brushes.Red;
 				}
+				else if (patients.Info == "не пройдена")
+				{
+					e.Row.Background = Brushes.Green;
+				}
 			}
+		}
+		private void poisk_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			patientsList.ItemsSource = db.Patients.ToList().Where(c => c.LastName.Contains(poisk.Text));
 		}
 	}
 }

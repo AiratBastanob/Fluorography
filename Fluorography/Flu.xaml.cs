@@ -16,22 +16,29 @@ using System.Windows.Shapes;
 using System.Globalization;
 using System.Diagnostics;
 using System.Xml.Linq;
+using Microsoft.Vbe.Interop;
 
 namespace Fluorography
 {
 	/// <summary>
 	/// Логика взаимодействия для Flu.xaml
 	/// </summary>
-	public partial class Flu : Window
+	public partial class Flu : System.Windows.Window
 	{
-
+		public AtnSRBEntities db = new AtnSRBEntities();
 		private DataTable _db;
 		Podkl _podkl = new Podkl();
-		public Flu()
+		public string _fio;
+		public PatientCD cd;
+		private readonly System.Windows.Window _window;
+		public Flu(System.Windows.Window window, string FIO)
 		{
 			InitializeComponent();
+			_window = window;
+			selo.ItemsSource = db.Selo.ToList();
+			street.ItemsSource = db.Street.ToList();
+			_fio= FIO;
 		}
-
 		private void getFluor_Click(object sender, RoutedEventArgs e)
 		{
 			if (selo.Text != string.Empty && street.Text != string.Empty)
@@ -48,11 +55,13 @@ namespace Fluorography
 				bool success = _podkl.adding_deleting_changing(cmm);
 				try
 				{
-
 					cmd.ExecuteNonQuery();
 					con.Close();
 					MessageBox.Show("Отмечено");
-
+					Close();
+					Specialist spe = new Specialist();
+					spe.Show();
+					spe.privet.Content = _fio;
 				}
 				catch
 				{
@@ -63,13 +72,6 @@ namespace Fluorography
 			{
 				MessageBox.Show("Какое - то поле пропущено");
 			}
-			//finally
-			//{
-			//	con.Close();
-			//}
-
-			//MessageBox.Show("Отмечено");
-
 		}
 
 		private void data_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -86,7 +88,7 @@ namespace Fluorography
 				if (success)
 				{
 					MessageBox.Show("Изменения внесены!");
-
+					this.Close();
 				}
 				else
 				{
@@ -97,6 +99,11 @@ namespace Fluorography
 			{
 				MessageBox.Show("Какое - то поле пропущено");
 			}
+		}
+
+		private void street_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
 		}
 	}
 }

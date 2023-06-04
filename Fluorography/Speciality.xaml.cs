@@ -23,14 +23,13 @@ namespace Fluorography
 	/// </summary>
 	public partial class Speciality : System.Windows.Window
 	{
-		
+		public AtnSRBEntities db = new AtnSRBEntities();
 		private System.Data.DataTable _db;
 		Podkl _podkl = new Podkl();
 		public Speciality()
 		{
 			InitializeComponent();
-			Obnov();
-			
+			spetsList.ItemsSource = db.Users.ToList();
 		}
 		public void Clear()
 		{
@@ -38,17 +37,11 @@ namespace Fluorography
 			pass.Clear();
 			role.Clear();
 			fio.Clear();
-		}
-		public void Obnov()
-		{
-			_db = _podkl.OverallSelect("Select ID,  login, password, role FROM [dbo].[Users]");
-			spetsList.ItemsSource = _db.DefaultView;
-		}
+		}		
 		private void exit_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
         }
-
 		private void newSpets_Click(object sender, RoutedEventArgs e)
 		{
 			if ((login.Text != "") && (pass.Text != "") && (role.Text != string.Empty) && (fio.Text != string.Empty))
@@ -66,7 +59,7 @@ namespace Fluorography
 					cmd.ExecuteNonQuery();
 					con.Close();
 					MessageBox.Show("Специалист добавлен");
-					Obnov();
+					spetsList.ItemsSource = db.Users.ToList();
 					Clear();
 				}
 				catch
@@ -76,7 +69,6 @@ namespace Fluorography
 			}
 			else { MessageBox.Show("Вы забыли заполнить!"); }
 		}
-
 		private void delete_Click(object sender, RoutedEventArgs e)
 		{
 			if (spetsList.SelectedItem != null)
@@ -86,12 +78,11 @@ namespace Fluorography
 				if (success)
 				{
 					MessageBox.Show("Специалист удален!");
-					Obnov();
+					spetsList.ItemsSource = db.Users.ToList();
 				}
 				else
 				{
 					MessageBox.Show("ОЙ! Что-то пошло не так");
-
 				}
 			}
 			else
@@ -99,7 +90,6 @@ namespace Fluorography
 				MessageBox.Show("Выберите пациента!");
 			}
 		}
-
 		private void search_Click(object sender, RoutedEventArgs e)
 		{
 			try
@@ -114,18 +104,10 @@ namespace Fluorography
 			}
 			catch
 			{
-
 				MessageBox.Show("Такого cпециалиста нет в базе данных");
 				poisk.Clear();
 			}
 		}
-
-		private void poisk_TextChanged(object sender, TextChangedEventArgs e)
-		{
-
-		}
-
-
 		private void spetsList_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
 		{
 			try
@@ -147,12 +129,6 @@ namespace Fluorography
 			}
 			catch (NullReferenceException) { }
 		}
-
-		private void spetsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
 		private void update_Click(object sender, RoutedEventArgs e)
 		{
 			if ((login.Text != "") && (pass.Text != "") && (role.Text != string.Empty) && (fio.Text != string.Empty))
@@ -163,7 +139,6 @@ namespace Fluorography
 				{
 					Clear();
 					MessageBox.Show("Успешно сохранено!");
-
 				}
 				else
 				{
@@ -172,5 +147,11 @@ namespace Fluorography
 			}
 			else { MessageBox.Show("Вы забыли заполнить!"); }
 		}
+
+		private void poisk_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			spetsList.ItemsSource = db.Users.ToList().Where(c => c.FIO.Contains(poisk.Text));
+		}
 	}
+	
 }

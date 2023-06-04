@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -22,14 +23,19 @@ namespace Fluorography
 	/// <summary>
 	/// Логика взаимодействия для PatientCD.xaml
 	/// </summary>
-	public partial class PatientCD : Window
+	public partial class PatientCD : System.Windows.Window
 	{
 		Specialist sp = new Specialist();
-		private DataTable _db;
+		private System.Data.DataTable _db;
 		Podkl _podkl = new Podkl();
-		public PatientCD()
+		private string _fio;
+		private readonly System.Windows.Window _window;
+
+		public PatientCD(System.Windows.Window window = null, string fio = null)
 		{
 			InitializeComponent();
+			_window = window;
+			_fio = fio;
 		}
 
 		public bool Proverka()
@@ -54,8 +60,10 @@ namespace Fluorography
 
 			if (fluographyOk.Content.ToString() == "проверить")
 			{
-				Flu flu = new Flu();
+				var flu = new Flu(_window, _fio);
 				flu.Show();
+				flu.getFluor.IsEnabled = false;
+				Hide();
 				_db = _podkl.OverallSelect("SELECT ID FROM [dbo].[Patients] WHERE ID = '" + idd.Text + "'");
 				for (int i = 0; i < _db.Rows.Count; i++)
 				{
@@ -66,24 +74,27 @@ namespace Fluorography
 				{
 					flu.street.Text = _db.Rows[0][0].ToString();
 					flu.selo.Text = _db.Rows[0][1].ToString();
-					flu.data.DisplayDate = Convert.ToDateTime(_db.Rows[0][2]);
+					flu.data.Text = _db.Rows[0][2].ToString();
 				}
 			}
 			else
 			{
-				Flu flu = new Flu();
+				var flu = new Flu(_window, _fio);
 				flu.Show();
+				flu.updating.IsEnabled= false;
+				Hide();
 				_db = _podkl.OverallSelect("SELECT ID FROM [dbo].[Patients] WHERE ID = '" + idd.Text + "'");
 				for (int i = 0; i < _db.Rows.Count; i++)
 				{
 					flu.patient.Content = _db.Rows[0][0].ToString();
 				}
-			}
-	
+			}	
 		}
 
 		private void exit_Click(object sender, RoutedEventArgs e)
 		{
+			_window.Show();
+			
 			this.Close();
 			sp.Obnov();
 		}
@@ -106,7 +117,7 @@ namespace Fluorography
 			else { MessageBox.Show("Вы забыли заполнить!"); }
 
 		}
-		public Window MyWindow { get; set; }
+		public System.Windows.Window MyWindow { get; set; }		
 		private void newPatient_Click(object sender, RoutedEventArgs e)
 		{
 			if ((lastName.Text != string.Empty) && (name.Text != string.Empty) && (patronymic.Text != string.Empty) && (dateOfBirth.Text != string.Empty) && (enp.Text != string.Empty))
@@ -128,7 +139,6 @@ namespace Fluorography
 					sp.Obnov();
 					MessageBox.Show("Пациент добавлен");
 					Clear();
-
 				}
 				catch
 				{

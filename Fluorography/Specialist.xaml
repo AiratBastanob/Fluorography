@@ -4,41 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fluorography"
+        xmlns:converter="clr-namespace:Fluorography.Models;assembly="
         mc:Ignorable="d"
-        Title="Специалист" Height="450" Width="800">
+        Title="Специалист" Icon="ICON.png" FontFamily="Bahnschrift Light" MaxHeight="450" MaxWidth="800" MinHeight="450" MinWidth="406"  Height="450" Width="800">
+    <Window.Resources>
+        <converter:CutOfConverter x:Key="DiscountConverter" Cutoff="25"/>
+        <Style TargetType="Border" x:Key="mainBorder">
+            <Setter Property="Background" Value="Red"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Sale, Converter={StaticResource DiscountConverter}}">
+                    <DataTrigger.Value>true</DataTrigger.Value>
+                    <Setter Property="Background" Value="#7fff00"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <BitmapImage x:Key="nullImage" UriSource="/Resources/picture.png"/>
+    </Window.Resources>
+
     <Grid Background="#FFD6F1E6">
         <Image VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" Height="50" Source="/ICON.png" Stretch="Fill" RenderTransformOrigin="-4.563,0.13" Margin="2,6,0,0"/>
         <Label Content="ГАУЗ Атнинская ЦРБ" HorizontalAlignment="Left" FontFamily="Bahnschrift Light" FontSize="14" Margin="62,10,0,399"/>
         <Label Content="программа учета флюорографии" HorizontalAlignment="Left" Margin="62,32,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed"/>
         <Button x:Name="exit" Content="ВЫХОД" HorizontalAlignment="Right"  VerticalAlignment="Top" FontSize="24" FontFamily="Bahnschrift Light Condensed" Width="132" Margin="0,24,10,0" Background="#FFFCB0B0" Click="exit_Click"/>
-
         <Button x:Name="newPatient" Content="добавить пациента" HorizontalAlignment="Left" Margin="60,349,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift Light" Width="340" Height="42" Background="#FFE7FFFE" Click="newPatient_Click"/>
-
         <Label Content="Фамилия:" HorizontalAlignment="Left" Margin="450,149,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
-        <TextBox x:Name="surname" Text="{Binding SelectedItem.Surname, ElementName=patientsList}" HorizontalAlignment="Left" Margin="556,152,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
+        <TextBox x:Name="surname" Text="{Binding SelectedItem.LastName, ElementName=patientsList}" HorizontalAlignment="Left" Margin="556,152,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
         <Label Content="Имя:" HorizontalAlignment="Left" Margin="492,192,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
-        <TextBox x:Name="name" Text="{Binding SelectedItem.LastName, ElementName=patientsList}" HorizontalAlignment="Left" Margin="556,195,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
+        <TextBox x:Name="name" Text="{Binding SelectedItem.Surname, ElementName=patientsList}" HorizontalAlignment="Left" Margin="556,195,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
         <Label Content="Отчество:" HorizontalAlignment="Left" Margin="450,236,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
         <TextBox x:Name="patronymic" Text="{Binding SelectedItem.Patronymic, ElementName=patientsList}" HorizontalAlignment="Left" Margin="556,239,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
         <Label Content="Прошел?" HorizontalAlignment="Left" Margin="450,281,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18" RenderTransformOrigin="1.483,0.721"/>
         <TextBox x:Name="info" Text="{Binding SelectedItem.Info, ElementName=patientsList}" HorizontalAlignment="Left" Margin="556,284,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
-
         <TextBox x:Name="poisk" TextChanged="poisk_TextChanged" HorizontalAlignment="Left" Margin="62,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="199" FontSize="18" FontFamily="Bahnschrift SemiLight" RenderTransformOrigin="0.5,0.5" Height="34"/>
-        <Button x:Name="search" Content="Поиск"  HorizontalAlignment="Left" Margin="266,102,0,0" VerticalAlignment="Top" Click="search_Click" RenderTransformOrigin="0.652,0.162" FontSize="18" Width="102" Background="#FFE7FFFE" Height="34"/>
         <Button x:Name="delete" Content="удалить пациента" HorizontalAlignment="Left" Margin="448,349,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bahnschrift Light" Width="292" Height="42" Background="#FFE7FFFE" Click="delete_Click"/>
         <Label x:Name="privet" Content="врач" HorizontalAlignment="Left" Margin="317,28,0,0" VerticalAlignment="Top" Width="288" FontFamily="Bahnschrift Light"/>
         <DataGrid x:Name="patientsList" ItemsSource="{Binding}" LoadingRow="patientsList_LoadingRow"  HorizontalAlignment="Left" Height="161" AutoGenerateColumns="False" Margin="60,152,0,0" SelectedCellsChanged="patientsList_SelectedCellsChanged" MouseDoubleClick="patientsList_MouseDoubleClick"  VerticalAlignment="Top" Width="340">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Path=ID}" Width="50" />
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}" Width="90" />
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path=LastName}" Width="70" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName}" Width="*" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Surname}" Width="*" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic}" Width="90" />
                 <DataGridTextColumn Header="ДатаРождения" Binding="{Binding Path=DateOfBirth}" Width="90" />
+                <DataGridTextColumn Header="Флюорографию" Binding="{Binding Path=Info}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="509,108,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
         <TextBox x:Name="id" HorizontalAlignment="Left" Text="{Binding SelectedItem.ID, ElementName=patientsList}" Margin="556,110,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>
-        <Label Content="Введите ФИО пациента:" HorizontalAlignment="Left" Margin="62,78,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight"/>
-
+        <Label Content="Введите фамилию пациента:" HorizontalAlignment="Left" Margin="62,78,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight"/>
     </Grid>
 </Window>
