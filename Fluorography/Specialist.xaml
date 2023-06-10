@@ -3,21 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Fluorography"
-        xmlns:converter="clr-namespace:Fluorography.Models;assembly="
+        xmlns:local="clr-namespace:Fluorography"      
         mc:Ignorable="d"
         Title="Специалист" Icon="ICON.png" FontFamily="Bahnschrift Light" MaxHeight="450" MaxWidth="800" MinHeight="450" MinWidth="406"  Height="450" Width="800">
     <Window.Resources>
-        <converter:CutOfConverter x:Key="DiscountConverter" Cutoff="25"/>
-        <Style TargetType="Border" x:Key="mainBorder">
-            <Setter Property="Background" Value="Red"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Sale, Converter={StaticResource DiscountConverter}}">
-                    <DataTrigger.Value>true</DataTrigger.Value>
-                    <Setter Property="Background" Value="#7fff00"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <local:InfoPatientToColorConverter x:Key="InfoPatientToColorConverter"/>        
         <BitmapImage x:Key="nullImage" UriSource="/Resources/picture.png"/>
     </Window.Resources>
 
@@ -46,7 +36,7 @@
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic}" Width="90" />
                 <DataGridTextColumn Header="ДатаРождения" Binding="{Binding Path=DateOfBirth}" Width="90" />
                 <DataGridTextColumn Header="Флюорографию" Binding="{Binding Path=Info}" Width="*"/>
-            </DataGrid.Columns>
+            </DataGrid.Columns>            
         </DataGrid>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="509,108,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
         <TextBox x:Name="id" HorizontalAlignment="Left" Text="{Binding SelectedItem.ID, ElementName=patientsList}" Margin="556,110,0,0" TextWrapping="Wrap" FontFamily="Bahnschrift SemiLight" VerticalAlignment="Top" Width="186" FontSize="20" IsEnabled="False"/>

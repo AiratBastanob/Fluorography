@@ -16,10 +16,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Org.BouncyCastle.Ocsp;
+//using Org.BouncyCastle.Ocsp;
 
 namespace Fluorography
 {
+	public class InfoPatientToColorConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			string infoAboutFluorography = (string)value;
+			if (infoAboutFluorography == "не пройдена")
+			{
+				return Brushes.Green;
+			}
+			return null;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
 	/// <summary>
 	/// Логика взаимодействия для Specialist.xaml
 	/// </summary>
@@ -33,6 +50,21 @@ namespace Fluorography
 			InitializeComponent();
 			patientsList.ItemsSource = db.Patients.ToList();
 		}
+
+		/// <summary>
+		/// Логика закрашивание пациента
+		/// </summary>
+		private void patientsList_LoadingRow(object sender, DataGridRowEventArgs e)
+		{
+			Patients patients = e.Row.Item as Patients;
+			// находим пациента и сравниваем поля даты		
+			int checkDate = db.Registr.Where(ps => ps.ID_patient == patients.ID && ps.DateSurvay < DateTime.Now.AddYears(-1)).Count();	
+			if (checkDate==1)
+			{
+				e.Row.Background = Brushes.Red;				
+			}
+		}	
+		
 		public void Obnov()
 		{
 			_db = _podkl.OverallSelect("Select ID,  LastName, Surname, Patronymic FROM [dbo].[Patients]");
@@ -130,25 +162,7 @@ namespace Fluorography
 			{
 				MessageBox.Show("Выберите пациента!");
 			}
-		}
-		private void patientsList_LoadingRow(object sender, DataGridRowEventArgs e)
-		{
-			Patients patients = new Patients();
-			Registr registr = new Registr();
-			var d = (Patients)patientsList.Items[0];
-
-			if (d.ID == registr.ID_patient)
-			{
-				if (Convert.ToInt32(DateTime.Now.Year - registr.DateSurvay.Year) >= 1)
-				{
-					e.Row.Background = Brushes.Red;
-				}
-				else if (patients.Info == "не пройдена")
-				{
-					e.Row.Background = Brushes.Green;
-				}
-			}
-		}
+		}	
 		private void poisk_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			patientsList.ItemsSource = db.Patients.ToList().Where(c => c.LastName.Contains(poisk.Text));
