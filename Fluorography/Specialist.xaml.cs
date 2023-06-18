@@ -59,14 +59,20 @@ namespace Fluorography
 		private void patientsList_LoadingRow(object sender, DataGridRowEventArgs e)
 		{
 			Patients patients = e.Row.Item as Patients;
-			// находим пациента и сравниваем поля даты		
-			int checkDate = db.Registr.Where(ps => ps.ID_patient == patients.ID && ps.DateSurvay < DateTime.Now.AddYears(-1)).Count();	
-			if (checkDate==1)
+			if (patients != null)
 			{
-				e.Row.Background = Brushes.Red;				
+				DateTime currentDate = DateTime.Now.AddYears(-1);
+				int checkDate = db.Registr
+					.Where(ps => ps.ID_patient == patients.ID && ps.DateSurvay < currentDate)
+					.Count();
+
+				if (checkDate == 1)
+				{
+					e.Row.Background = Brushes.Red;
+				}
 			}
-		}	
-		
+		}
+
 		public void Obnov()
 		{
 			_db = _podkl.OverallSelect("Select ID,  LastName, Surname, Patronymic FROM [dbo].[Patients]");
