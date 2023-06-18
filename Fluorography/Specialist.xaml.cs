@@ -29,9 +29,11 @@ namespace Fluorography
 			{
 				return Brushes.Green;
 			}
-			return null;
+			else
+			{
+				return Brushes.White;
+			}
 		}
-
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotImplementedException();

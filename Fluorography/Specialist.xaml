@@ -35,7 +35,13 @@
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Surname}" Width="*" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic}" Width="90" />
                 <DataGridTextColumn Header="ДатаРождения" Binding="{Binding Path=DateOfBirth}" Width="90" />
-                <DataGridTextColumn Header="Флюорографию" Binding="{Binding Path=Info}" Width="*"/>
+                <DataGridTextColumn Header="Флюорографию" Binding="{Binding Path=Info}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{Binding Info, Converter={StaticResource InfoPatientToColorConverter}}"/>
+                    </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>            
         </DataGrid>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="509,108,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight" FontSize="18"/>
